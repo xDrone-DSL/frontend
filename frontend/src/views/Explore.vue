@@ -17,7 +17,7 @@
         >
           <slide v-for="(adv, i) in advs" :key="adv.id" :index="i">
             <router-link :to="`${adv.key}`" append>
-              <v-card :height="660" :width="510" :img="pics[i]" tile>
+              <v-card :height="660" :width="510" :img="pics[i % 4]" tile>
                 <v-layout class="pa-2 d-flex align-center flex-column mb-6">
                   <v-flex class="pa-3 mt-12 mb-7 level">
                     {{ adv.level }}

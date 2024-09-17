@@ -46,6 +46,8 @@
           </v-list-item>
 
           <DroneSettings></DroneSettings>
+
+          <AdvSettings></AdvSettings>
         </v-list>
       </v-card>
     </v-menu>
@@ -55,11 +57,13 @@
 <script>
 import { socket } from "@/apiCalls";
 import DroneSettings from "@/components/teacher/DroneSettings";
+import AdvSettings from "@/components/teacher/AdvSettings";
 
 export default {
   name: "SettingMenu",
   components: {
-    DroneSettings
+    DroneSettings,
+    AdvSettings
   },
   data: () => ({
     on: true,

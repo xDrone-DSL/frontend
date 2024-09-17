@@ -20,7 +20,7 @@
         >
           <slide v-for="(task, i) in tasks" :key="task.key" :index="i">
             <router-link :to="`${task.key}`" append>
-              <v-card :height="660" :width="510" :img="pics[i]" tile>
+              <v-card :height="660" :width="510" :img="pics[i % 5]" tile>
                 <v-layout class="pa-2 d-flex align-center flex-column mb-6">
                   <v-flex class="pa-3 mt-12 mb-4 level">
                     {{ task.level }}

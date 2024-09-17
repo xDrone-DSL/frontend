@@ -1,5 +1,11 @@
 <template>
-  <div id="container"></div>
+  <div
+    id="container"
+    :style="{
+      width: demo ? '400px' : '800px',
+      height: demo ? '300px' : '600px'
+    }"
+  ></div>
 </template>
 
 <script>
@@ -13,7 +19,8 @@ particleFire.install({ THREE: THREE });
 export default {
   props: {
     animation: { type: Array, required: true },
-    environments: { required: true }
+    environments: { required: true },
+    demo: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -97,7 +104,11 @@ export default {
 
       // Renderer
       this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this.renderer.setSize(800, 600);
+      if (!this.demo) {
+        this.renderer.setSize(800, 600);
+      } else {
+        this.renderer.setSize(400, 300);
+      }
       container.appendChild(this.renderer.domElement);
 
       let loader = new GLTFLoader();
@@ -239,14 +250,22 @@ export default {
 
       // Controls
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-      this.camera.position.x = 10;
-      this.camera.position.y = 24;
-      this.camera.position.z = 40;
+
       this.controls.maxPolarAngle = Math.PI / 2;
-      this.controls.autoRotate = true;
-      this.controls.autoRotateSpeed = -25;
-      this.controls.dampingFactor = true;
-      this.camera.zoom = 8;
+
+      if (!this.demo) {
+        this.camera.position.x = 10;
+        this.camera.position.y = 24;
+        this.camera.position.z = 40;
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = -25;
+        this.controls.dampingFactor = true;
+        this.camera.zoom = 8;
+      } else {
+        this.camera.position.x = 10;
+        this.camera.position.y = 34;
+        this.camera.position.z = -40;
+      }
       this.camera.updateProjectionMatrix();
 
       this.controls.update();
@@ -269,15 +288,17 @@ export default {
         }
       }
 
-      if (this.start) {
-        this.camera.zoom *= 0.97;
-        this.camera.updateProjectionMatrix();
-        if (this.camera.zoom < 1.24) {
-          this.controls.autoRotate = false;
-          this.start = false;
+      if (!this.demo) {
+        if (this.start) {
+          this.camera.zoom *= 0.97;
+          this.camera.updateProjectionMatrix();
+          if (this.camera.zoom < 1.24) {
+            this.controls.autoRotate = false;
+            this.start = false;
+          }
+        } else {
+          this.move();
         }
-      } else {
-        this.move();
       }
       this.controls.update();
 
@@ -350,10 +371,3 @@ export default {
   }
 };
 </script>
-
-<style>
-#container {
-  width: 800px;
-  height: 600px;
-}
-</style>
